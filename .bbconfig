@@ -1,0 +1,10 @@
+{
+    "default": {
+        "portal-host": "localhost",
+        "portal-port": 8080,
+        "portal-context": "gateway/api",
+        "portal-auth-path": "gateway/api/auth/login",
+        "portal-version": "6.1",
+        "exclude-defaults": true
+    }
+}
