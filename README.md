@@ -30,6 +30,7 @@ USAGE
 <!-- commands -->
 * [`bb-model hello [FILE]`](#bb-model-hello-file)
 * [`bb-model help [COMMAND]`](#bb-model-help-command)
+* [`bb-model sync`](#bb-model-sync)
 
 ## `bb-model hello [FILE]`
 
@@ -67,4 +68,31 @@ OPTIONS
 ```
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v2.2.1/src/commands/help.ts)_
+
+## `bb-model sync`
+
+Syncronizes remote model with local
+
+```
+USAGE
+  $ bb-model sync
+
+OPTIONS
+  --out-file=out-file                  [default: app-model]
+  --portal-auth-path=portal-auth-path  [default: gateway/api/auth/login]
+  --portal-context=portal-context      [default: gateway/api]
+  --portal-host=portal-host            [default: localhost]
+  --portal-name=portal-name            [default: retail-banking-demo-wc3]
+  --portal-page-name=portal-page-name  [default: index]
+  --portal-password=portal-password    [default: admin]
+  --portal-port=portal-port            [default: 8080]
+  --portal-protocol=(http|https)       [default: http]
+  --portal-username=portal-username    [default: admin]
+
+EXAMPLE
+  $ bb-model sync --portal-name=<experience-name>
+  model sync complete.
+```
+
+_See code: [src/commands/sync.ts](https://github.com/pet/bb-model/blob/v0.0.0/src/commands/sync.ts)_
 <!-- commandsstop -->

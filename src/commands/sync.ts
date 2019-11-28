@@ -2,13 +2,16 @@ import { Command, flags } from "@oclif/command";
 import * as pump from "pump";
 import * as Listr from "listr";
 
-import * as fs from "fs";
 import writePrep from "../lib/tidy";
-import { config } from "rxjs";
+import { resolve } from "dns";
+import reject from "ramda/es/reject";
+import { cookieCompare } from "tough-cookie";
+const fs = require("fs");
 
 let request = require("request");
 const JSONStream = require("JSONStream");
 const through = require("through2");
+const eos = require("end-of-stream");
 
 export default class Sync extends Command {
   // TODO: have better description
@@ -16,7 +19,7 @@ export default class Sync extends Command {
 
   // TODO: update examples
   static examples = [
-    `$ bb-model sync
+    `$ bb-model sync --portal-name=<experience-name>
 model sync complete.
 `
   ];
@@ -44,6 +47,9 @@ model sync complete.
     }),
     "portal-page-name": flags.string({
       default: "index"
+    }),
+    "out-file": flags.string({
+      default: "app-model"
     })
   };
 
@@ -66,79 +72,79 @@ model sync complete.
       username: config["portal-username"],
       password: config["portal-password"],
       pageName: config["portal-page-name"],
+      outFile: config["out-file"],
       authUrl: `${config["portal-protocol"]}://${config["portal-host"]}:${config["portal-port"]}/${config["portal-auth-path"]}`,
       modelUrl: `${config["portal-protocol"]}://${config["portal-host"]}:${config["portal-port"]}/${config["portal-context"]}/portals/${config["portal-name"]}.json`
     };
   }
 
   async run() {
-    // const { flags } = this.parse(Sync);
-
-    // const config = this.getConfiguration();
-    // const authUrl = `${config["portal-protocol"]}://${config["portal-host"]}:${config["portal-port"]}/${config["portal-auth-path"]}`;
-    // const modelUrl = `${config["portal-protocol"]}://${config["portal-host"]}:${config["portal-port"]}/${config["portal-context"]}/portals/${config["portal-name"]}.json`;
-    // console.log(config);
-
-    // console.log(`Auth_ ${authUrl}`);
-    // console.log(`Model_ ${modelUrl}`);
-
     // preserve cookies
     request = request.defaults({ jar: true });
 
     const tasks = new Listr([
       {
         title: "Reading configuration",
-        task: ctx => {
-          ctx.config = this.getConfiguration();
-        }
+        task: ctx =>
+          new Promise(reoslve => {
+            ctx.config = this.getConfiguration();
+            reoslve("OK");
+          })
       },
       {
-        title: "Auth",
-        task: (ctx, task) => {
-          task.title = `Authenticating ${ctx.config.authUrl}`;
-
-          console.log("getting...");
-          const authGet = request.get(ctx.config.authUrl);
-          authGet.on("response", res => {
-            console.log("posting...");
-            request.post(
-              ctx.config.authUrl,
-              {
-                headers: {
-                  "Content-Type": "application/x-www-form-urlencoded"
+        title: "Authenticating",
+        task: ctx =>
+          new Promise((resolve, reject) => {
+            const authGet = request.get(ctx.config.authUrl);
+            authGet.on("response", _ => {
+              request.post(
+                ctx.config.authUrl,
+                {
+                  headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                  },
+                  form: {
+                    username: ctx.config.username,
+                    password: ctx.config.password
+                  }
                 },
-                form: {
-                  username: ctx.config.username,
-                  password: ctx.config.password
+                (err, res) => {
+                  if (err) {
+                    throw new Error(err.message);
+                  }
+                  if (res.statusCode === 200) {
+                    resolve("OK");
+                  } else {
+                    reject(new Error("Authentication failed"));
+                  }
                 }
-              },
-              function(err, res) {
-                console.log("processing model");
-                if (err) {
-                  console.error(err);
-                } else {
-                  console.log(res.statusCode);
-                  pump(
-                    request(ctx.config.modelUrl),
-                    JSONStream.parse("pages.*", page =>
-                      page.name === ctx.config.pageName ? page : null
-                    ),
-                    through.obj(writePrep),
-                    fs.createWriteStream("app-model.json")
-                    // console.error
-                  );
-                }
-              }
+              );
+            });
+          })
+      },
+      {
+        title: "Processing model",
+        task: ctx =>
+          new Promise((resolve, reject) => {
+            const stream = pump(
+              request(ctx.config.modelUrl),
+              JSONStream.parse("pages.*", page =>
+                page.name === ctx.config.pageName ? page : null
+              ),
+              through.obj(writePrep),
+              fs.createWriteStream(`${ctx.config.outFile}.json`)
             );
-          });
-
-          console.log(ctx.config.authUrl);
-        }
+            eos(stream, err => {
+              if (err)
+                return console.log("stream had an error or closed early");
+              resolve("OK");
+            });
+          })
       }
     ]);
 
     tasks.run().catch(err => {
-      console.error(err);
+      console.error(`Error: ${err.message}`);
     });
   }
 }
