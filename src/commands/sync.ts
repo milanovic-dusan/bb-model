@@ -1,62 +1,69 @@
 import { Command, flags } from "@oclif/command";
-import * as pump from "pump";
 import * as Listr from "listr";
+import * as pump from "pump";
 
 import writePrep from "../lib/tidy";
-import { resolve } from "dns";
-import reject from "ramda/es/reject";
-import { cookieCompare } from "tough-cookie";
-const fs = require("fs");
 
+import fs = require("fs");
+
+// tslint:disable-next-line:no-var-requires
 let request = require("request");
-const JSONStream = require("JSONStream");
-const through = require("through2");
-const eos = require("end-of-stream");
+import eos = require("end-of-stream");
+import JSONStream = require("JSONStream");
+import through = require("through2");
 
 export default class Sync extends Command {
   // TODO: have better description
-  static description = `Syncronizes remote model with local`;
+  public static description = `Syncronizes remote model with local.
+...
+Produces 'app-model.json'.
+Supports .bbconfig file in the current working directory
+  `;
 
   // TODO: update examples
-  static examples = [
+  public static examples = [
     `$ bb-model sync --portal-name=<experience-name>
-model sync complete.
+  ✔ Reading configuration
+  ✔ Authenticating
+  ✔ Processing model
 `
   ];
 
   // flag names are matching @bb-cli tools
-  static flags = {
-    "portal-port": flags.integer({ default: 8080 }),
-    "portal-host": flags.string({ default: "localhost" }),
-    "portal-protocol": flags.enum({
-      options: ["http", "https"],
-      default: "http"
+  public static flags = {
+    "out-file": flags.string({
+      default: "app-model"
     }),
     "portal-context": flags.string({ default: "gateway/api" }),
+    "portal-host": flags.string({ default: "localhost" }),
+    "portal-port": flags.integer({ default: 8080 }),
+    "portal-protocol": flags.enum({
+      default: "http",
+      options: ["http", "https"]
+    }),
+
     "portal-auth-path": flags.string({
       default: "gateway/api/auth/login"
     }),
     "portal-name": flags.string({
       default: "retail-banking-demo-wc3"
     }),
-    "portal-username": flags.string({
-      default: "admin"
+    "portal-page-name": flags.string({
+      default: "index"
     }),
     "portal-password": flags.string({
       default: "admin"
     }),
-    "portal-page-name": flags.string({
-      default: "index"
-    }),
-    "out-file": flags.string({
-      default: "app-model"
+    "portal-username": flags.string({
+      default: "admin"
     })
   };
 
   // no support for positional args
   // static args = [{ name: "url" }];
 
-  getConfiguration() {
+  public getConfiguration() {
+    // tslint:disable-next-line:no-shadowed-variable
     const { flags } = this.parse(Sync);
     // simplest way (sync)
     // file size is ~250B
@@ -69,30 +76,29 @@ model sync complete.
     };
 
     return {
-      username: config["portal-username"],
-      password: config["portal-password"],
-      pageName: config["portal-page-name"],
-      outFile: config["out-file"],
       authUrl: `${config["portal-protocol"]}://${config["portal-host"]}:${config["portal-port"]}/${config["portal-auth-path"]}`,
-      modelUrl: `${config["portal-protocol"]}://${config["portal-host"]}:${config["portal-port"]}/${config["portal-context"]}/portals/${config["portal-name"]}.json`
+      modelUrl: `${config["portal-protocol"]}://${config["portal-host"]}:${config["portal-port"]}/${config["portal-context"]}/portals/${config["portal-name"]}.json`,
+      outFile: config["out-file"],
+      pageName: config["portal-page-name"],
+      password: config["portal-password"],
+      username: config["portal-username"]
     };
   }
 
-  async run() {
+  public async run() {
     // preserve cookies
     request = request.defaults({ jar: true });
 
     const tasks = new Listr([
       {
-        title: "Reading configuration",
         task: ctx =>
           new Promise(reoslve => {
             ctx.config = this.getConfiguration();
             reoslve("OK");
-          })
+          }),
+        title: "Reading configuration"
       },
       {
-        title: "Authenticating",
         task: ctx =>
           new Promise((resolve, reject) => {
             const authGet = request.get(ctx.config.authUrl);
@@ -100,12 +106,12 @@ model sync complete.
               request.post(
                 ctx.config.authUrl,
                 {
+                  form: {
+                    password: ctx.config.password,
+                    username: ctx.config.username
+                  },
                   headers: {
                     "Content-Type": "application/x-www-form-urlencoded"
-                  },
-                  form: {
-                    username: ctx.config.username,
-                    password: ctx.config.password
                   }
                 },
                 (err, res) => {
@@ -120,10 +126,10 @@ model sync complete.
                 }
               );
             });
-          })
+          }),
+        title: "Authenticating"
       },
       {
-        title: "Processing model",
         task: ctx =>
           new Promise((resolve, reject) => {
             const stream = pump(
@@ -135,16 +141,19 @@ model sync complete.
               fs.createWriteStream(`${ctx.config.outFile}.json`)
             );
             eos(stream, err => {
-              if (err)
-                return console.log("stream had an error or closed early");
+              if (err) {
+                return reject(new Error("stream had an error or closed early"));
+              }
               resolve("OK");
             });
-          })
+          }),
+        title: "Processing model"
       }
     ]);
 
-    tasks.run().catch(err => {
-      console.error(`Error: ${err.message}`);
+    tasks.run().catch(error => {
+      // tslint:disable-next-line:no-console
+      console.error(`Error: ${error.message}`);
     });
   }
 }

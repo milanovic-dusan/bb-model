@@ -1,16 +1,16 @@
 import {
-  has,
-  pick,
-  curry,
-  reduce,
   assoc,
+  curry,
+  has,
+  head,
   keys,
-  pipe,
+  lensProp,
   map,
   omit,
   over,
-  lensProp,
-  head
+  pick,
+  pipe,
+  reduce
 } from "ramda";
 
 // utility function to rename object properties
@@ -42,13 +42,13 @@ const omitProps = over(lensProp("properties"), omit(propsBlackList));
 const tidy = pipe(pickKeys, renameProps, omitProps);
 
 function walkAndTidy(obj) {
-  if (!hasChildren(obj)) {
-    // leave
-    return tidy(obj);
-  } else {
+  if (hasChildren(obj)) {
     // nodes
+    // tslint:disable-next-line:ban-comma-operator
     return (obj.children = map(walkAndTidy, obj.children)), tidy(obj);
   }
+  // leaves
+  return tidy(obj);
 }
 
 export default function writePrep(buf, enc, cb) {
