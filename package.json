@@ -1,7 +1,7 @@
 {
   "name": "@dussan/bb-model",
   "description": "Automate model tasks",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "Dusan Milanovic",
   "bin": {
     "bb-model": "./bin/run"
