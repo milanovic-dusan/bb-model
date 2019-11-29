@@ -1,5 +1,4 @@
-bb-model
-========
+# bb-model
 
 Automate model tasks
 
@@ -9,11 +8,15 @@ Automate model tasks
 [![License](https://img.shields.io/npm/l/bb-model.svg)](https://github.com/pet/bb-model/blob/master/package.json)
 
 <!-- toc -->
-* [Usage](#usage)
-* [Commands](#commands)
-<!-- tocstop -->
+
+- [Usage](#usage)
+- [Commands](#commands)
+  <!-- tocstop -->
+
 # Usage
+
 <!-- usage -->
+
 ```sh-session
 $ npm install -g @dussan/bb-model
 $ bb-model COMMAND
@@ -25,11 +28,15 @@ USAGE
   $ bb-model COMMAND
 ...
 ```
+
 <!-- usagestop -->
+
 # Commands
+
 <!-- commands -->
-* [`bb-model help [COMMAND]`](#bb-model-help-command)
-* [`bb-model sync`](#bb-model-sync)
+
+- [`bb-model help [COMMAND]`](#bb-model-help-command)
+- [`bb-model sync`](#bb-model-sync)
 
 ## `bb-model help [COMMAND]`
 
@@ -81,4 +88,5 @@ EXAMPLE
 ```
 
 _See code: [src/commands/sync.ts](https://github.com/milanovic-dusan/bb-model/blob/v0.1.2/src/commands/sync.ts)_
+
 <!-- commandsstop -->
