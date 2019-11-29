@@ -89,6 +89,11 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
+"@fancy-test/nock@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@fancy-test/nock/-/nock-0.1.1.tgz#0d9669d293f6a53dc1814b0c4ad1e8cae57c7046"
+  integrity sha512-W7Qc9UFaaBvP4souW/zC+Ld7H838nWOMe9Md0B4fw74VVQOMDE5aA/9yh5BRkKdotpPUyxTaI1IBFTaDbB7cRQ==
+
 "@nodelib/fs.scandir@2.1.3":
   version "2.1.3"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.scandir/-/fs.scandir-2.1.3.tgz#3a582bdb53804c6ba6d146579c46e52130cf4a3b"
@@ -1718,7 +1723,7 @@ nice-try@^1.0.4:
   resolved "https://registry.yarnpkg.com/nice-try/-/nice-try-1.0.5.tgz#a3378a7696ce7d223e88fc9b764bd7ef1089e366"
   integrity sha512-1nh45deeb5olNY7eX82BkPO7SSxR5SSYJiPTrTdFUVYwAl8CKMA5N9PjTYkHiRjisVcxcQ1HXdLhx2qxxJzLNQ==
 
-nock@*:
+nock@*, nock@^11.7.0:
   version "11.7.0"
   resolved "https://registry.yarnpkg.com/nock/-/nock-11.7.0.tgz#5eaae8b8a55c0dfc014d05692c8cf3d31d61a342"
   integrity sha512-7c1jhHew74C33OBeRYyQENT+YXQiejpwIrEjinh6dRurBae+Ei4QjeUaPlkptIF0ZacEiVCnw8dWaxqepkiihg==

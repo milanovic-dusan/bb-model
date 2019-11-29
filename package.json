@@ -1,12 +1,12 @@
 {
-  "name": "bb-model",
+  "name": "@dussan/bb-model",
   "description": "Automate model tasks",
   "version": "0.0.0",
   "author": "Dusan Milanovic",
   "bin": {
     "bb-model": "./bin/run"
   },
-  "bugs": "https://github.com/pet/bb-model/issues",
+  "bugs": "https://github.com/milanovic-dusan/bb-model/issues",
   "dependencies": {
     "@oclif/command": "^1",
     "@oclif/config": "^1",
@@ -22,6 +22,7 @@
     "tslib": "^1"
   },
   "devDependencies": {
+    "@fancy-test/nock": "^0.1.1",
     "@oclif/dev-cli": "^1",
     "@oclif/test": "^1",
     "@types/chai": "^4",
@@ -35,6 +36,7 @@
     "chai": "^4",
     "globby": "^10",
     "mocha": "^5",
+    "nock": "^11.7.0",
     "nyc": "^14",
     "ts-node": "^8",
     "tslint": "^5.20.1",
@@ -50,7 +52,7 @@
     "/npm-shrinkwrap.json",
     "/oclif.manifest.json"
   ],
-  "homepage": "https://github.com/pet/bb-model",
+  "homepage": "https://github.com/milanovic-dusan/bb-model",
   "keywords": [
     "oclif"
   ],
@@ -63,7 +65,7 @@
       "@oclif/plugin-help"
     ]
   },
-  "repository": "pet/bb-model",
+  "repository": "milanovic-dusan/bb-model",
   "scripts": {
     "postpack": "rm -f oclif.manifest.json",
     "posttest": "tslint -c tslint.json 'src/**/*.ts'",

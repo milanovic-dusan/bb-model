@@ -1,0 +1,29 @@
+{
+  "pages": [
+    {
+      "name": "index",
+      "preferences": {
+        "order": "0",
+        "title": "Home Page"
+      },
+      "children": [
+        {
+          "name": "app container",
+          "preferences": {
+            "title": "App Container"
+          },
+          "children": [
+            {
+              "name": "example widget",
+              "preferences": {
+                "order": "0",
+                "title": "Example Widget",
+                "classId": "ExampleWidgetComponent"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
