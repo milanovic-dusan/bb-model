@@ -8,35 +8,32 @@ Automate model tasks
 [![License](https://img.shields.io/npm/l/bb-model.svg)](https://github.com/pet/bb-model/blob/master/package.json)
 
 <!-- toc -->
-
-- [Usage](#usage)
-- [Commands](#commands)
-  <!-- tocstop -->
+* [bb-model](#bb-model)
+* [Usage](#usage)
+* [Commands](#commands)
+<!-- tocstop -->
 
 # Usage
 
 <!-- usage -->
-
 ```sh-session
 $ npm install -g @dussan/bb-model
 $ bb-model COMMAND
 running command...
 $ bb-model (-v|--version|version)
-@dussan/bb-model/0.1.2 darwin-x64 node-v10.16.0
+@dussan/bb-model/0.1.3 darwin-x64 node-v10.16.0
 $ bb-model --help [COMMAND]
 USAGE
   $ bb-model COMMAND
 ...
 ```
-
 <!-- usagestop -->
 
 # Commands
 
 <!-- commands -->
-
-- [`bb-model help [COMMAND]`](#bb-model-help-command)
-- [`bb-model sync`](#bb-model-sync)
+* [`bb-model help [COMMAND]`](#bb-model-help-command)
+* [`bb-model sync`](#bb-model-sync)
 
 ## `bb-model help [COMMAND]`
 
@@ -87,6 +84,5 @@ EXAMPLE
      ✔ Processing model
 ```
 
-_See code: [src/commands/sync.ts](https://github.com/milanovic-dusan/bb-model/blob/v0.1.2/src/commands/sync.ts)_
-
+_See code: [src/commands/sync.ts](https://github.com/milanovic-dusan/bb-model/blob/v0.1.3/src/commands/sync.ts)_
 <!-- commandsstop -->
