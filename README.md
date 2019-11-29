@@ -15,11 +15,11 @@ Automate model tasks
 # Usage
 <!-- usage -->
 ```sh-session
-$ npm install -g bb-model
+$ npm install -g @dussan/bb-model
 $ bb-model COMMAND
 running command...
 $ bb-model (-v|--version|version)
-bb-model/0.0.0 darwin-x64 node-v10.16.0
+@dussan/bb-model/0.1.0 darwin-x64 node-v10.16.0
 $ bb-model --help [COMMAND]
 USAGE
   $ bb-model COMMAND
@@ -28,29 +28,8 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
-* [`bb-model hello [FILE]`](#bb-model-hello-file)
 * [`bb-model help [COMMAND]`](#bb-model-help-command)
 * [`bb-model sync`](#bb-model-sync)
-
-## `bb-model hello [FILE]`
-
-describe the command here
-
-```
-USAGE
-  $ bb-model hello [FILE]
-
-OPTIONS
-  -f, --force
-  -h, --help       show CLI help
-  -n, --name=name  name to print
-
-EXAMPLE
-  $ bb-model hello
-  hello world from ./src/hello.ts!
-```
-
-_See code: [src/commands/hello.ts](https://github.com/pet/bb-model/blob/v0.0.0/src/commands/hello.ts)_
 
 ## `bb-model help [COMMAND]`
 
@@ -71,7 +50,7 @@ _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v2.2.1
 
 ## `bb-model sync`
 
-Syncronizes remote model with local
+Syncronizes remote model with local.
 
 ```
 USAGE
@@ -89,10 +68,17 @@ OPTIONS
   --portal-protocol=(http|https)       [default: http]
   --portal-username=portal-username    [default: admin]
 
+DESCRIPTION
+  ...
+  Produces 'app-model.json'.
+  Supports .bbconfig file in the current working directory
+
 EXAMPLE
   $ bb-model sync --portal-name=<experience-name>
-  model sync complete.
+     ✔ Reading configuration
+     ✔ Authenticating
+     ✔ Processing model
 ```
 
-_See code: [src/commands/sync.ts](https://github.com/pet/bb-model/blob/v0.0.0/src/commands/sync.ts)_
+_See code: [src/commands/sync.ts](https://github.com/milanovic-dusan/bb-model/blob/v0.1.0/src/commands/sync.ts)_
 <!-- commandsstop -->
