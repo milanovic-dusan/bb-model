@@ -3,19 +3,21 @@
 Automate model tasks
 
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
-[![Version](https://img.shields.io/npm/v/bb-model.svg)](https://npmjs.org/package/bb-model)
-[![Downloads/week](https://img.shields.io/npm/dw/bb-model.svg)](https://npmjs.org/package/bb-model)
-[![License](https://img.shields.io/npm/l/bb-model.svg)](https://github.com/pet/bb-model/blob/master/package.json)
+[![Version](https://img.shields.io/npm/v/@dussan/bb-model.svg)](https://npmjs.org/package/@dussan/bb-model)
+[![Downloads/week](https://img.shields.io/npm/dw/@dussan/bb-model.svg)](https://npmjs.org/package/@dussan/bb-model)
+[![License](https://img.shields.io/npm/l/@dussan/bb-model.svg)](https://github.com/milanovic-dusan/bb-model/blob/master/package.json)
 
 <!-- toc -->
-* [bb-model](#bb-model)
-* [Usage](#usage)
-* [Commands](#commands)
-<!-- tocstop -->
+
+- [bb-model](#bb-model)
+- [Usage](#usage)
+- [Commands](#commands)
+  <!-- tocstop -->
 
 # Usage
 
 <!-- usage -->
+
 ```sh-session
 $ npm install -g @dussan/bb-model
 $ bb-model COMMAND
@@ -27,13 +29,15 @@ USAGE
   $ bb-model COMMAND
 ...
 ```
+
 <!-- usagestop -->
 
 # Commands
 
 <!-- commands -->
-* [`bb-model help [COMMAND]`](#bb-model-help-command)
-* [`bb-model sync`](#bb-model-sync)
+
+- [`bb-model help [COMMAND]`](#bb-model-help-command)
+- [`bb-model sync`](#bb-model-sync)
 
 ## `bb-model help [COMMAND]`
 
@@ -85,4 +89,5 @@ EXAMPLE
 ```
 
 _See code: [src/commands/sync.ts](https://github.com/milanovic-dusan/bb-model/blob/v0.1.3/src/commands/sync.ts)_
+
 <!-- commandsstop -->
