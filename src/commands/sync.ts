@@ -68,7 +68,11 @@ Supports .bbconfig file in the current working directory
     // simplest way (sync)
     // file size is ~250B
     // an optimisation candidate
-    const bbconfig = fs.readFileSync(".bbconfig").toString();
+    const filename = ".bbconfig";
+    let bbconfig = "";
+    if (fs.existsSync(filename)) {
+      bbconfig = fs.readFileSync(".bbconfig").toString();
+    }
 
     const config = {
       ...JSON.parse(bbconfig).default,
